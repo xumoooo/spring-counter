@@ -34,6 +34,14 @@ public class SpringCounterApplicationIT {
     }
 
     @Test
+    public void methodNotAllowed() {
+        RestAssured.when()
+                .post("/")
+                .then()
+                .statusCode(HttpStatus.SC_METHOD_NOT_ALLOWED);
+    }
+
+    @Test
     public void testAdminOnce() {
         int restRunCount = 10;
 
