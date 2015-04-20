@@ -35,24 +35,32 @@ public class SpringCounterApplicationIT {
 
     @Test
     public void testAdminOnce() {
-        RestAssured.given()
-                //.auth().digest("admin", "admin")
-                .when()
-                .get("/")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .content(equalCountInformation(UserInformation.ADMIN.getMessage(), 1));
+        int restRunCount = 10;
+
+        for (int i = 1; i <= restRunCount; ++i) {
+            RestAssured.given()
+                    //.auth().digest("admin", "admin")
+                    .when()
+                    .get("/")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK)
+                    .content(equalCountInformation(UserInformation.ADMIN.getMessage(), i));
+        }
     }
 
     //    @Test
     public void testUserOnce() {
-        RestAssured.given()
-                //.auth().digest("user", "user")
-                .when()
-                .get("/")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .content(equalCountInformation(UserInformation.USER.getMessage(), 1));
+        int restRunCount = 10;
+
+        for (int i = 1; i <= restRunCount; ++i) {
+            RestAssured.given()
+                    //.auth().digest("user", "user")
+                    .when()
+                    .get("/")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK)
+                    .content(equalCountInformation(UserInformation.USER.getMessage(), i));
+        }
     }
 
     private Matcher<CountInformation> equalCountInformation(String message, long count) {
