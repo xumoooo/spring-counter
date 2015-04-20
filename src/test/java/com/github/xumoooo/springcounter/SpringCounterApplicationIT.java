@@ -34,7 +34,7 @@ public class SpringCounterApplicationIT {
     }
 
     @Test
-    public void methodNotAllowed() {
+    public void methodNotAllowedTest() {
         RestAssured.when()
                 .post("/")
                 .then()
@@ -42,7 +42,17 @@ public class SpringCounterApplicationIT {
     }
 
     @Test
-    public void testAdminOnce() {
+    public void accessDeniedTest() {
+        RestAssured
+                .when()
+                .get("/")
+                .then()
+                .statusCode(HttpStatus.SC_UNAUTHORIZED)
+                .content(equalMessage(CommonRestService.ACCESS_DENIED_MESSAGE));
+    }
+
+    @Test
+    public void adminTest() {
         int restRunCount = 10;
 
         for (int i = 1; i <= restRunCount; ++i) {
@@ -57,7 +67,7 @@ public class SpringCounterApplicationIT {
     }
 
     @Test
-    public void testUserOnce() {
+    public void userTest() {
         int restRunCount = 10;
 
         for (int i = 1; i <= restRunCount; ++i) {
@@ -73,5 +83,9 @@ public class SpringCounterApplicationIT {
 
     private Matcher<CountInformation> equalCountInformation(String message, long count) {
         return new CountInformationMatcher(objectMapper, message, count);
+    }
+
+    private Matcher<Message> equalMessage(String message) {
+        return new MessageMatcher(objectMapper, message);
     }
 }

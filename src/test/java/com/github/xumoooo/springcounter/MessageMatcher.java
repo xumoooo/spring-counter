@@ -7,36 +7,33 @@ import org.hamcrest.Description;
 import java.io.IOException;
 
 
-public class CountInformationMatcher extends BaseMatcher<CountInformation> {
+public class MessageMatcher extends BaseMatcher<Message> {
 
     private final ObjectMapper objectMapper;
 
     private final String message;
 
-    private final long count;
-
-    CountInformationMatcher(ObjectMapper objectMapper, String message, long count) {
+    MessageMatcher(ObjectMapper objectMapper, String message) {
         this.objectMapper = objectMapper;
         this.message = message;
-        this.count = count;
     }
 
     @Override
     public boolean matches(Object item) {
         String content = (String) item;
 
-        CountInformation countInformation = null;
+        Message message = null;
         try {
-            countInformation = objectMapper.readValue(content, CountInformation.class);
+            message = objectMapper.readValue(content, Message.class);
         } catch (IOException e) {
             throw new RuntimeException("can't parse json", e);
         }
 
-        return countInformation.getCount() == count && countInformation.getMessage().equals(message);
+        return message.getMessage().equals(this.message);
     }
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("{\"message\": \"" + message + ", \"count\":" + count + "\"}");
+        description.appendText("{\"message\": \"" + message + "}");
     }
 }
