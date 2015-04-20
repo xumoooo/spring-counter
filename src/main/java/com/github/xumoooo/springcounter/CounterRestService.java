@@ -1,6 +1,8 @@
 package com.github.xumoooo.springcounter;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +13,7 @@ public class CounterRestService {
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CountInformation index() {
-        String userName = "admin"; //todo(xuma): get from security service
+        String userName = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 
         UserInformation userInformation;
         switch (userName) {

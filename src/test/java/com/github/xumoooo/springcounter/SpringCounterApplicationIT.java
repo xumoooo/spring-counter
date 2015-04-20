@@ -39,7 +39,7 @@ public class SpringCounterApplicationIT {
 
         for (int i = 1; i <= restRunCount; ++i) {
             RestAssured.given()
-                    //.auth().digest("admin", "admin")
+                    .auth().digest("admin", "admin")
                     .when()
                     .get("/")
                     .then()
@@ -48,13 +48,13 @@ public class SpringCounterApplicationIT {
         }
     }
 
-    //    @Test
+    @Test
     public void testUserOnce() {
         int restRunCount = 10;
 
         for (int i = 1; i <= restRunCount; ++i) {
             RestAssured.given()
-                    //.auth().digest("user", "user")
+                    .auth().digest("user", "user")
                     .when()
                     .get("/")
                     .then()
