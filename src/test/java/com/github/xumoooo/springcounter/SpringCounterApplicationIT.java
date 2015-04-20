@@ -81,6 +81,17 @@ public class SpringCounterApplicationIT {
         }
     }
 
+    @Test
+    public void otherTest() {
+        RestAssured.given()
+                .auth().digest("other", "other")
+                .when()
+                .get("/")
+                .then()
+                .statusCode(HttpStatus.SC_FORBIDDEN)
+                .content(equalMessage(CommonRestService.getForbiddenMessage("other")));
+    }
+
     private Matcher<CountInformation> equalCountInformation(String message, long count) {
         return new CountInformationMatcher(objectMapper, message, count);
     }
